@@ -168,7 +168,10 @@ parser_write_flash.add_argument(
 
 
 def dll_data(fname):
-    return get_data('cc3200tool', os.path.join('dll', fname))
+    if not sys.modules.get('cc3200tool', None) is None:
+        return get_data('cc3200tool', os.path.join('dll', fname))
+    else:
+        return open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dll', fname), "rb").read()
 
 
 class CC3200Error(Exception):
